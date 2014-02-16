@@ -261,8 +261,6 @@
                 Object.keys(options.imageVersions).forEach(function (version) {
                     counter += 1;
                     var opts = options.imageVersions[version];
-                    console.log("opts: "+opts.width);
-                    fs.mkdirSync(options.uploadDir + '/' + version + '/');
                     imageMagick.resize({
                         width: opts.width,
                         height: opts.height,
@@ -305,4 +303,6 @@
     } else {
         require('http').createServer(serve).listen(port);
     }
+
+    console.log("server start at: "+port);
 }(8888));
