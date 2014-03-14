@@ -261,7 +261,7 @@
                 Object.keys(options.imageVersions).forEach(function (version) {
                     counter += 1;
                     var opts = options.imageVersions[version];
-                    imageMagick.resize({
+                    imageMagick.crop({
                         width: opts.width,
                         height: opts.height,
                         srcPath: options.uploadDir + '/' + fileInfo.name,
