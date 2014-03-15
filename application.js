@@ -261,6 +261,7 @@
                 Object.keys(options.imageVersions).forEach(function (version) {
                     counter += 1;
                     var opts = options.imageVersions[version];
+                    //crop only for face
                     imageMagick.crop({
                         width: opts.width,
                         height: opts.height,
