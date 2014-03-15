@@ -222,8 +222,10 @@
             map = {},
             counter = 1,
             redirect,
+            uploadType = options.uploadType || 'thumbnail',
             finish = function () {
                 counter -= 1;
+                //console.log('forms222: '+JSON.stringify(form));
                 if (!counter) {
                     files.forEach(function (fileInfo) {
                         fileInfo.initUrls(handler.req);
@@ -238,14 +240,25 @@
               console.log('resized kittens.jpg to fit within 256x256px');
             };
 
+        
+  
+
         form.uploadDir = options.tmpDir;
+
+
         form.on('fileBegin', function (name, file) {
             tmpFiles.push(file.path);
             var fileInfo = new FileInfo(file, handler.req, true);
             fileInfo.safeName();
             map[path.basename(file.path)] = fileInfo;
+            //console.log('forms: '+handler.req.formData);
+            //console.log('forms111: '+JSON.stringify(form.formData));
             files.push(fileInfo);
         }).on('field', function (name, value) {
+            console.log('name: '+name+ '  value: '+value);
+            if(name==='uploadType' && value){
+                options.uploadType = value;
+            }
             if (name === 'redirect') {
                 redirect = value;
             }
@@ -262,12 +275,22 @@
                     counter += 1;
                     var opts = options.imageVersions[version];
                     //crop only for face
-                    imageMagick.crop({
-                        width: opts.width,
-                        height: opts.height,
-                        srcPath: options.uploadDir + '/' + fileInfo.name,
-                        dstPath: options.uploadDir + '/' + version + '/' + fileInfo.name
-                    }, finish);
+                    if(options.uploadType==='face'){
+                        imageMagick.crop({
+                            width: opts.width,
+                            height: opts.height,
+                            srcPath: options.uploadDir + '/' + fileInfo.name,
+                            dstPath: options.uploadDir + '/' + version + '/' + fileInfo.name
+                        }, finish);
+                    }else{
+                        imageMagick.resize({
+                            width: opts.width,
+                            height: opts.height,
+                            srcPath: options.uploadDir + '/' + fileInfo.name,
+                            dstPath: options.uploadDir + '/' + version + '/' + fileInfo.name
+                        }, finish);
+                    }
+
                 });
             }
         }).on('aborted', function () {
