@@ -255,7 +255,7 @@
             //console.log('forms111: '+JSON.stringify(form.formData));
             files.push(fileInfo);
         }).on('field', function (name, value) {
-            console.log('name: '+name+ '  value: '+value);
+            //console.log('name: '+name+ '  value: '+value);
             if(name==='uploadType' && value){
                 options.uploadType = value;
             }
@@ -263,6 +263,7 @@
                 redirect = value;
             }
         }).on('file', function (name, file) {
+            
             var fileInfo = map[path.basename(file.path)];
             fileInfo.size = file.size;
             if (!fileInfo.validate()) {
@@ -306,6 +307,7 @@
         }).on('end', finish).parse(handler.req);
     };
     UploadHandler.prototype.destroy = function () {
+
         var handler = this,
             fileName;
         if (handler.req.url.slice(0, options.uploadUrl.length) === options.uploadUrl) {
