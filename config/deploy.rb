@@ -30,7 +30,7 @@ set :pty, true
 
 
 # Default value for linked_dirs is []
-set :linked_dirs, %w{node_modules tmp/pids log public/files}
+set :linked_dirs, %w{node_modules tmp/pids log public/files config}
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
@@ -51,7 +51,7 @@ namespace :deploy do
           info ">>>>>> restarting application"
           within current_path  do
 
-            execute :forever, "--pidFile #{fetch(:node_pid)} restart app.js"
+            execute :forever, "--pidFile #{fetch(:node_pid)} restart application.js"
 
           end
           info ">>>>>> restart application success"
@@ -79,7 +79,7 @@ namespace :deploy do
         unless test("[ -f #{fetch(:node_pid)} ]")
           info ">>>>>> starting application"
           with NODE_ENV: :production do
-            execute :forever, "--pidFile #{fetch(:node_pid)} start app.js"
+            execute :forever, "--pidFile #{fetch(:node_pid)} start application.js"
           end
 
         else
@@ -96,7 +96,7 @@ namespace :deploy do
       within current_path  do
         if test("[ -f #{fetch(:node_pid)} ]")
           info ">>>>>> stop application"
-          execute :forever, "stop app.js"
+          execute :forever, "stop application.js"
 
         else
           error ">>>>>> can not stop. there is no started "

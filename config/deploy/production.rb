@@ -1,5 +1,5 @@
-# set :server_name, "static.soaror.com"
-set :server_name, "106.186.22.114"
+set :server_name, "static.soaror.com"
+#set :server_name, "bitatom.com"
 set :branch, "master"
 set :deploy_to, "/data/www/image-server"
 
